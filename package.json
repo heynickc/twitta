@@ -1,0 +1,24 @@
+{
+  "name": "twitta",
+  "version": "0.0.0",
+  "description": "twitta\r ======",
+  "main": "app.js",
+  "dependencies": {
+    "twit": "~1.1.9"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heynickc/twitta.git"
+  },
+  "author": "",
+  "license": "BSD",
+  "gitHead": "d45112e8a088aad79e56124087a9a93eb718dd7f",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/heynickc/twitta/issues"
+  }
+}
