@@ -3,10 +3,10 @@
 require_once('TwitterAPIExchange.php');
 
 $settings = array(
-	'oauth_access_token' => "130244330-976qappXeD8UMErO4caDHfdkUDU1tOVUNL2JYx4U",
-	'oauth_access_token_secret' => "270qdjfwMbJAg4jBiogjcUNv0DmUzmdhcgjzRwdD2M",
-	'consumer_key' => "aflKbIDyiixpG4cNVZNpQ",
-	'consumer_secret' => "o5K47PEQPZS1wffwNWT64JhsnP3XjRbhANwXqzAIzI"
+	'oauth_access_token' => "",
+	'oauth_access_token_secret' => "",
+	'consumer_key' => "",
+	'consumer_secret' => ""
 );
 
 $url = 'https://api.twitter.com/1.1/followers/ids.json';
