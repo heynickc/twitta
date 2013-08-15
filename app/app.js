@@ -1,11 +1,7 @@
 var Twit = require('twit');
+var creds = require('../data/creds.js');
 
-var T = new Twit({
-	consumer_key: '',
-	consumer_secret: '',
-	access_token: '',
-	access_token_secret: ''
-});
+var T = new Twit(creds);
 
 T.get('followers/list', {
 	screen_name: 'heynickc'
