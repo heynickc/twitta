@@ -6,9 +6,9 @@ var creds = require('../data/creds.js');
 var T = new Twit(creds);
 
 T.get('followers/ids', {
-	user_id: 922
+	user_id: 12912
 }, function(err, data) {
-	var buffer = new Buffer(JSON.stringify(data), 'utf-8');
+	var buffer = new Buffer(JSON.stringify(data.ids), 'utf-8');
 	var stream = fs.createWriteStream('./test.txt');
 	stream.write(buffer);
 });
