@@ -9,15 +9,29 @@ var followerIds = [];
 
 function getFollowers(cursor) {
 	if (cursor === 0) {
-		var wstream = fs.createWriteStream('./test.txt');
+		var wstream = fs.createWriteStream('./test.txt', {
+			'flags': 'a'
+		});
 		wstream.write(followerIds);
 	} else {
 		T.get('followers/ids', {
-			user_id: 12912,
+			// user_id: 12912,
+			screen_name: 'TheAtlantic',
 			cursor: cursor
 		}, function(err, data) {
-			if (err) return console.log(util.inspect(err));
+			if (err) {
+				switch (err.statusCode) {
+					case 429:
+						console.log(util.format('Limit reached @ %s, process will resume in 15 min...', cursor));
+						return setTimeout(function() {
+							getFollowers(cursor);
+						}, 900000);
+					default:
+						return console.log(util.inspect(err));
+				}
+			}
 			followerIds = followerIds.concat(data.ids);
+			console.log(data.next_cursor);
 			getFollowers(data.next_cursor);
 		});
 	}
