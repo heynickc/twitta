@@ -9,14 +9,15 @@ var followerIds = [];
 
 function getFollowers(cursor) {
 	if (cursor === 0) {
-		var wstream = fs.createWriteStream('./test.txt', {
-			'flags': 'a'
-		});
-		wstream.write(followerIds);
+		// var wstream = fs.createWriteStream('./test.txt', {
+		// 	'flags': 'a'
+		// });
+		// wstream.write(followerIds);
+		console.log(followerIds);
 	} else {
 		T.get('followers/ids', {
 			// user_id: 12912,
-			screen_name: 'TheAtlantic',
+			screen_name: 'heynickc',
 			cursor: cursor
 		}, function(err, data) {
 			if (err) {
