@@ -16,8 +16,7 @@ function getFollowers(cursor) {
 		console.log(followerIds);
 	} else {
 		T.get('followers/ids', {
-			// user_id: 12912,
-			screen_name: 'heynickc',
+			user_id: 418,
 			cursor: cursor
 		}, function(err, data) {
 			if (err) {
@@ -37,5 +36,6 @@ function getFollowers(cursor) {
 		});
 	}
 }
-
 getFollowers(-1);
+
+// module.exports.getFollowers = getFollowers;
