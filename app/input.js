@@ -9,17 +9,16 @@ rstream.setEncoding('utf8');
 var result = [];
 
 rstream.on('data', function(data) {
-	result = data.split('\r\n');
-	result = _.filter(result, function(val) {
-		if (!isNaN(val)) {
-			return val;
-		}
-	});
-	// result = [418, 922];
-	// app.getFollowers(418, -1);
-	async.eachSeries(result, app.getFollowers);
-});
+	// result = data.split('\r\n');
+	// result = _.filter(result, function(val) {
+	// 	if (!isNaN(val)) {
+	// 		return val;
+	// 	}
+	// });
+	// app.getFollowers('heynickc');
 
-rstream.on('end', function() {
-	console.log('File read');
+	result = ['heynickc', 'EmilyMMcKenzie'];
+	async.each(result, app.getFollowers, function(err, vals) {
+		console.log(vals);
+	});
 });
