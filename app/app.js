@@ -5,18 +5,23 @@ var util = require('util');
 var creds = require('../data/creds.js');
 
 var T = new Twit(creds);
-var followerIds = [];
+var cursor = -1;
 
-function getFollowers(cursor) {
+function Set() {
+	this.user = '';
+	this.followers = [];
+}
+
+function getFollowers(id, cursor) {
 	if (cursor === 0) {
 		// var wstream = fs.createWriteStream('./test.txt', {
 		// 	'flags': 'a'
 		// });
 		// wstream.write(followerIds);
-		console.log(followerIds);
+		console.log(JSON.stringify(dataset));
 	} else {
 		T.get('followers/ids', {
-			user_id: 418,
+			user_id: id,
 			cursor: cursor
 		}, function(err, data) {
 			if (err) {
@@ -30,12 +35,13 @@ function getFollowers(cursor) {
 						return console.log(util.inspect(err));
 				}
 			}
-			followerIds = followerIds.concat(data.ids);
-			console.log(data.next_cursor);
-			getFollowers(data.next_cursor);
+			dataset = new Set();
+			dataset.user = id;
+			dataset.followers = _.union(dataset.followers, data.ids);
+			getFollowers(id, data.next_cursor);
 		});
 	}
 }
-getFollowers(-1);
+// getFollowers(418, -1);
 
-// module.exports.getFollowers = getFollowers;
+module.exports.getFollowers = getFollowers;
