@@ -2,7 +2,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var util = require('util');
 var async = require('async');
-var app = require('./app.js');
+var getFollowers = require('./app.js');
 
 var rstream = fs.createReadStream('../data/sample.csv');
 rstream.setEncoding('utf8');
@@ -18,7 +18,10 @@ rstream.on('data', function(data) {
 	// app.getFollowers('heynickc');
 
 	result = ['heynickc', 'EmilyMMcKenzie'];
-	async.each(result, app.getFollowers, function(err, vals) {
-		console.log(vals);
+	async.each(result, getFollowers, function(err, vals) {
+		var wstream = fs.createWriteStream('./test.txt', {
+			'flags': 'a'
+		});
+		wstream.write(JSON.stringify(vals));
 	});
 });
