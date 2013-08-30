@@ -9,9 +9,6 @@ var creds = require('../data/creds.js');
 
 var logger = log4js.getLogger();
 var T = new Twit(creds);
-var app = {};
-var cursor = -1;
-
 
 // function getFollowers(id, callback) {
 // 	if (cursor === 0) {
@@ -49,8 +46,8 @@ var cursor = -1;
 
 function _fetchFollowers(nextCursor, id, cb) {
 	T.get('friends/ids', {
-		// user_id: id,
-		screen_name: id,
+		user_id: id,
+		// screen_name: id,
 		cursor: nextCursor
 	}, function(err, result) {
 		if (err) {
@@ -99,27 +96,26 @@ function _fetchFollowers(nextCursor, id, cb) {
 	});
 }
 
-var rstream = fs.createReadStream('../data/sample.csv');
-rstream.setEncoding('utf8');
-var result = [];
-
 function write(data) {
-	var rstream = fs.createReadStream('../data/sample.csv');
+	// var rstream = fs.createReadStream('../data/sample.csv');
 	var wstream = fs.createWriteStream('./test.txt', {
 		'flags': 'a'
 	});
 	wstream.write(JSON.stringify(data));
 }
 
-rstream.on('data', function(data) {
-	// results = data.split('\r\n');
-	// results = _.filter(result, function(val) {
-	// 	if (!isNaN(val)) {
-	// 		return val;
-	// 	}
-	// });
+var rstream = fs.createReadStream('../data/sample.csv');
+rstream.setEncoding('utf8');
+var result = [];
 
-	results = ['heynickc', 'EmilyMMcKenzie'];
+rstream.on('data', function(data) {
+	results = data.split('\r\n');
+	results = _.filter(results, function(val) {
+		if (!isNaN(val)) {
+			return parseInt(val);
+		}
+	});
+	// results = ['heynickc', 'EmilyMMcKenzie', 'glowe'];
 	_.each(results, function(item) {
 		_fetchFollowers(-1, item, function(err, data) {
 			write(data);
