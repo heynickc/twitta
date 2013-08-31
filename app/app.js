@@ -10,40 +10,6 @@ var creds = require('../data/creds.js');
 var logger = log4js.getLogger();
 var T = new Twit(creds);
 
-// function getFollowers(id, callback) {
-// 	if (cursor === 0) {
-// 		callback(null, dataset);
-// 	} else {
-// 		T.get('followers/ids', {
-// 			// user_id: id,
-// 			screen_name: id,
-// 			cursor: cursor
-// 		}, function(err, data) {900000
-// 			if (err) {
-// 				switch (err.statusCode) {
-// 					case 429:
-// 						console.log(util.format('Limit reached @ %s, process will resume in 15 min...', cursor));
-// 						return setTimeout(function() {
-// 							getFollowers(id, callback);
-// 						}, );
-// 					default:
-// 						return console.log(util.inspect(err));
-// 				}
-// 			}
-// 			dataset = {
-// 				user: '',
-// 				followers: []
-// 			};
-// 			dataset.user = id;
-// 			dataset.followers = _.union(dataset.followers, data.ids);
-// 			cursor = data.next_cursor;
-// 			getFollowers(id, callback);
-// 		});
-// 	}
-// }
-
-
-
 function _fetchFollowers(nextCursor, id, cb) {
 	T.get('friends/ids', {
 		user_id: id,
@@ -82,7 +48,7 @@ function _fetchFollowers(nextCursor, id, cb) {
 
 		if (result['next_cursor'] !== 0) {
 			// Fetch next cursor.
-			_fetchFollowers(result['next_cursor'], function(err, ids) {
+			_fetchFollowers(result['next_cursor'], id, function(err, ids) {
 				if (err) {
 					return cb(err);
 				}
@@ -115,10 +81,16 @@ rstream.on('data', function(data) {
 			return parseInt(val);
 		}
 	});
-	// results = ['heynickc', 'EmilyMMcKenzie', 'glowe'];
-	_.each(results, function(item) {
+	// results = [418, 922, 2986, 3818, 6968, 7122];
+	// results = [418, 922, 2986];
+	async.forEachSeries(results, function(item, callback) {
 		_fetchFollowers(-1, item, function(err, data) {
 			write(data);
+			callback();
 		});
+	}, function(err) {
+		if (err) {
+			console.log(err);
+		}
 	});
 });
