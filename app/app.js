@@ -81,8 +81,7 @@ rstream.on('data', function(data) {
 			return parseInt(val);
 		}
 	});
-	// results = [418, 922, 2986, 3818, 6968, 7122];
-	// results = [418, 922, 2986];
+
 	async.forEachSeries(results, function(item, callback) {
 		_fetchFollowers(-1, item, function(err, data) {
 			write(data);
